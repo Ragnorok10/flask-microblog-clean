@@ -1,0 +1,31 @@
+<!--THIS PAGE WILL SERVE AS THE HTML FOR THE USER_POPUP WHEN A USER HOVERS OVER A PROFILE-->
+
+<div>
+    <img src="{{ user.avatar(64) }}" style="margin: 5px; float: left">
+    <p><a href="{{ url_for('main.user', username=user.username) }}">{{ user.username }}</a></p> <!--displays username-->
+    {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
+    <div class="clearfix"></div>
+    {% if user.last_seen %} <!--start-->
+    <p>{{ _('Last seen on') }}: {{ moment(user.last_seen).format('lll') }}</p>
+    {% endif %} <!--end - displays last seen status-->
+    <p>{{ _('%(count)d followers', count=user.followers_count()) }}, 
+            {{ _('%(count)d following', count=user.following_count()) }}</p> <!--displays follower/following count in popup-->
+    {% if user != current_user %} <!--this section will show the FOLLOW/UNFOLLOW buttons depending on whether the current user is following the user being hovered over or not-->
+        {% if not current_user.is_following(user) %}
+        <p>
+            <form action="{{ url_for('main.follow', username=user.username) }}" method="post">
+                {{ form.hidden_tag() }}
+                {{ form.submit(value=_('Follow'), class_='btn btn-outline-primary btn-sm') }}
+            </form>
+        </p>
+        {% else %} <!--if the user is following the user, then this will display the unfollow button-->
+        <p>
+            <form action="{{ url_for('main.unfollow', username=user.username) }}" method="post">
+                {{ form.hidden_tag() }}
+                {{ form.submit(value=_('Unfollow'), class_='btn btn-outline-primary btn-sm') }}
+            </form>
+        </p>
+        {% endif %}
+    {% endif %}
+</div>
+

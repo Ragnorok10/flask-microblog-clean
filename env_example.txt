@@ -1,0 +1,5 @@
+SECRET_KEY=secret_key_ex
+MAIL_SERVER=localhost
+MAIL_PORT=port_#
+MS_TRANSLATOR_KEY=<123456...>
+ELASTICSEARCH_URL=http://localhost:port_3
